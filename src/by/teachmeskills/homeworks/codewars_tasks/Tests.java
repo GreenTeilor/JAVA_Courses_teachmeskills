@@ -2,6 +2,7 @@ package by.teachmeskills.homeworks.codewars_tasks;
 
 import by.teachmeskills.homeworks.codewars_tasks.solutions.Task1;
 import by.teachmeskills.homeworks.codewars_tasks.solutions.Task2;
+import by.teachmeskills.homeworks.codewars_tasks.solutions.Task3;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
@@ -45,6 +46,13 @@ public class Tests {
         int[][] test3 = new int[][]{{4}
         };
         assertEquals(4, Task2.longestSlideDown(test3));
+    }
+
+    @Test
+    public void task3Test() {
+        assertEquals("Empty arrays should have a max of 0", 0, Task3.sequence(new int[]{}));
+        assertEquals("Example array should have a max of 6", 6, Task3.sequence(new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4}));
+        assertEquals("Array with only negative numbers should have a max of 0", 0, Task3.sequence(new int[]{ -5, -11, -1, -7, -1, -6, -4}));
     }
 
 }
