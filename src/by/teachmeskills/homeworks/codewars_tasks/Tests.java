@@ -1,9 +1,6 @@
 package by.teachmeskills.homeworks.codewars_tasks;
 
-import by.teachmeskills.homeworks.codewars_tasks.solutions.Task1;
-import by.teachmeskills.homeworks.codewars_tasks.solutions.Task2;
-import by.teachmeskills.homeworks.codewars_tasks.solutions.Task3;
-import by.teachmeskills.homeworks.codewars_tasks.solutions.Task4;
+import by.teachmeskills.homeworks.codewars_tasks.solutions.*;
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -71,6 +68,23 @@ public class Tests {
 
         long[] test4 = new long[] {3, 5, 0};
         assertArrayEquals(test4, Task4.productFib(14));
+    }
+
+    @Test
+    public void task5Test() {
+        assertEquals("Shall ask for mineral water when no beers are ordered :", "Woda mineralna poprosze", Task5.orderingBeers(0));
+        assertEquals("One is like an adjective, so should be written acording to the gender : Jedno", "Jedno piwo poprosze", Task5.orderingBeers(1));
+        assertEquals("Dwa piwa poprosze", Task5.orderingBeers(2));
+        assertEquals("Trzy piwa poprosze", Task5.orderingBeers(3));
+        assertEquals("Dwadziescia osiem piw poprosze", Task5.orderingBeers(28));
+        assertEquals("Dwadziescia piw poprosze", Task5.orderingBeers(20));
+        assertEquals("Czterdziesci piw poprosze", Task5.orderingBeers(40));
+        assertEquals("Dziewiecdziesiat trzy piwa poprosze", Task5.orderingBeers(93));
+        assertEquals("Szesnascie piw poprosze", Task5.orderingBeers(16));
+        assertEquals("Trzynascie piw poprosze", Task5.orderingBeers(13));
+        assertEquals("Dwadziescia jeden piw poprosze", Task5.orderingBeers(21));
+        assertEquals("", Task5.orderingBeers(-1));
+        assertEquals("", Task5.orderingBeers(100));
     }
 
 }
