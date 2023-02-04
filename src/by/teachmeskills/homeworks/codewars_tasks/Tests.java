@@ -3,7 +3,10 @@ package by.teachmeskills.homeworks.codewars_tasks;
 import by.teachmeskills.homeworks.codewars_tasks.solutions.Task1;
 import by.teachmeskills.homeworks.codewars_tasks.solutions.Task2;
 import by.teachmeskills.homeworks.codewars_tasks.solutions.Task3;
+import by.teachmeskills.homeworks.codewars_tasks.solutions.Task4;
 import org.junit.Test;
+
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class Tests {
@@ -53,6 +56,21 @@ public class Tests {
         assertEquals("Empty arrays should have a max of 0", 0, Task3.sequence(new int[]{}));
         assertEquals("Example array should have a max of 6", 6, Task3.sequence(new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4}));
         assertEquals("Array with only negative numbers should have a max of 0", 0, Task3.sequence(new int[]{ -5, -11, -1, -7, -1, -6, -4}));
+    }
+
+    @Test
+    public void task4Test() {
+        long[] test1 = new long[] {55, 89, 1};
+        assertArrayEquals(test1, Task4.productFib(4895));
+
+        long[] test2 = new long[] {89, 144, 0};
+        assertArrayEquals(test2, Task4.productFib(5895));
+
+        long[] test3 = new long[] {144, 233, 1};
+        assertArrayEquals(test3, Task4.productFib(33552));
+
+        long[] test4 = new long[] {3, 5, 0};
+        assertArrayEquals(test4, Task4.productFib(14));
     }
 
 }
