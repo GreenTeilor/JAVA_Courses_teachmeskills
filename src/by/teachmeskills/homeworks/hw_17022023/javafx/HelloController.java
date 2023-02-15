@@ -10,8 +10,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 
-import java.io.*;
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class HelloController {
@@ -40,7 +43,7 @@ public class HelloController {
     @FXML
     private TextArea txtOutput;
 
-    private static ArrayList<Integer> array;
+    private static int[] array = new int[0];
 
 
     @FXML
@@ -51,16 +54,21 @@ public class HelloController {
         cbOption.getItems().addAll(items);
 
         btOpen.setOnAction(event -> {
-            array = new ArrayList<Integer>();
             File arrayFile = openFile(HelloApplication.scene);
+            int[] tempArray;
             try {
                 Scanner scanner = new Scanner(arrayFile);
                 while (scanner.hasNextInt()) {
-                    array.add(scanner.nextInt());
+                    tempArray = new int[array.length + 1];
+                    System.arraycopy(array, 0, tempArray, 0, array.length);
+                    tempArray[tempArray.length - 1] = scanner.nextInt();
+                    array = new int[array.length + 1];
+                    System.arraycopy(tempArray, 0, array, 0, array.length);
                 }
-                txtInput.setText(array.toString());
+                txtInput.setText(Arrays.toString(array));
 
             } catch (FileNotFoundException e) {
+                txtOutput.setText("Файл не найден");
                 throw new RuntimeException(e);
             }
         });
@@ -78,7 +86,7 @@ public class HelloController {
         });
 
         btSubmit.setOnAction(event -> {
-            if (array != null && array.size() != 0)
+            if (array != null && array.length != 0)
                 switch (cbOption.getSelectionModel().getSelectedIndex()) {
                     case 0 -> txtOutput.setText(Integer.toString(ArrayOperations.sum(array)));
                     case 1 -> {
@@ -96,19 +104,20 @@ public class HelloController {
                     }
                     case 5 -> {
                         ArrayOperations.reverse(array);
-                        txtOutput.setText(array.toString());
-                        txtInput.setText(array.toString());
+                        txtOutput.setText(Arrays.toString(array));
+                        txtInput.setText(Arrays.toString(array));
                     }
                     default -> {
                         ArrayOperations.sort(array);
-                        txtOutput.setText(array.toString());
-                        txtInput.setText(array.toString());
+                        ArrayOperations.sort(array);
+                        txtOutput.setText(Arrays.toString(array));
+                        txtInput.setText(Arrays.toString(array));
                     }
                 }
         });
 
         btSearch.setOnAction(event -> {
-            if (array != null && array.size() != 0)
+            if (array != null && array.length != 0)
                 txtOutput.setText("Индекс искомого элемента: " +  ArrayOperations.find(array, Integer.parseInt(txtFieldSearch.getText())));
         });
 
