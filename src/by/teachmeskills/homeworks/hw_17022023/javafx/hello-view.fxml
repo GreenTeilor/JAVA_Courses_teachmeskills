@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="453.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxtest.HelloController">
+   <children>
+      <Button fx:id="btOpen" layoutX="52.0" layoutY="115.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="101.0" text="Открыть" />
+      <Label layoutX="53.0" layoutY="41.0" prefHeight="74.0" prefWidth="135.0" text="Ввод">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="txtInput" layoutX="53.0" layoutY="155.0" prefHeight="200.0" prefWidth="200.0" />
+      <ComboBox fx:id="cbOption" layoutX="53.0" layoutY="380.0" prefWidth="150.0" />
+      <Button fx:id="btSubmit" layoutX="221.0" layoutY="380.0" mnemonicParsing="false" text="Выполнить" />
+      <Button fx:id="btSearch" layoutX="221.0" layoutY="414.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Поиск" />
+      <TextField fx:id="txtFieldSearch" layoutX="54.0" layoutY="414.0" />
+      <Label layoutX="311.0" layoutY="59.0" text="Вывод">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="txtOutput" layoutX="311.0" layoutY="155.0" prefHeight="200.0" prefWidth="200.0" />
+      <Button fx:id="btSave" layoutX="311.0" layoutY="115.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="101.0" text="Сохранить" />
+   </children>
+</AnchorPane>
