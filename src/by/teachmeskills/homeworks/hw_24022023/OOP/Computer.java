@@ -87,8 +87,9 @@ public class Computer {
         this.hardDriveType = hardDriveType;
     }
 
-    public void printHardwareInfo() {
-        System.out.println("Процессор: " + getProcessorType() + "; Оперативная память: " + getRamType() + "; Жесткий диск: " + getHardDriveType());
+    @Override
+    public String toString() {
+        return "Процессор: " + getProcessorType() + "; Оперативная память: " + getRamType() + "; Жесткий диск: " + getHardDriveType();
     }
 
     private void powerOffOn(String stateOf) {
@@ -113,8 +114,8 @@ public class Computer {
         Computer computer2 = new Computer();
         computer1.turnOn();
         computer2.turnOn();
-        computer1.printHardwareInfo();
-        computer2.printHardwareInfo();
+        System.out.println(computer1);
+        System.out.println(computer2);
         computer1.turnOff();
         computer2.turnOff();
     }
