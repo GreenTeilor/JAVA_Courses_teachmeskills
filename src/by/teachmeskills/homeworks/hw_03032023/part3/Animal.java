@@ -9,7 +9,7 @@ public abstract class Animal {
 
     protected Location location;
 
-    protected static class Boundaries {
+    public static class Boundaries {
         private int width;
         private int height;
 
@@ -40,7 +40,7 @@ public abstract class Animal {
         }
     }
 
-    protected static class Location {
+    public static class Location {
         private int x;
         private int y;
 
@@ -71,6 +71,49 @@ public abstract class Animal {
         }
     }
 
+    public static class AnimalsArray {
+        private Animal[] animals;
+
+        public AnimalsArray(int size) {
+            animals = new Animal[size];
+        }
+
+        public void add(Animal animal) {
+            Animal[] tempArray = new Animal[animals.length + 1];
+            System.arraycopy(animals, 0, tempArray, 0, animals.length);
+            tempArray[tempArray.length - 1] = animal;
+            animals = new Animal[animals.length + 1];
+            System.arraycopy(tempArray, 0, animals, 0, animals.length);
+        }
+
+        public Animal find(String picture) {
+            for (Animal animal : animals)
+                if (animal.picture.contains(picture))
+                    return animal;
+            return null;
+        }
+
+        public void delete(String picture) {
+            Animal[] result = new Animal[animals.length - 1];
+            for (int i = 0; i < animals.length; ++i)
+                if (animals[i].picture.contains(picture)) {
+                    System.arraycopy(animals, 0, result, 0, i);
+                    System.arraycopy(animals, i + 1, result, i, animals.length - i - 1);
+                    animals = result;
+                    break;
+                }
+        }
+
+        static public void editAnimal(Animal animal, String newPicture, String newFood, int newHunger, Boundaries newBoundaries, Location newLocation) {
+            animal.picture = newPicture;
+            animal.food = newFood;
+            animal.hunger = newHunger;
+            animal.boundaries = newBoundaries;
+            animal.location = newLocation;
+        }
+
+    }
+
     public Animal(String picture, String food, int hunger, Boundaries boundaries, Location location) {
         this.picture = picture;
         this.food = food;
@@ -88,6 +131,12 @@ public abstract class Animal {
         System.out.println("Roaming...");
     }
 
-
+    public void printInfo() {
+        System.out.println("Picture: " + picture);
+        System.out.println("Food: " + food);
+        System.out.println("Hunger: " + hunger);
+        System.out.println("Boundaries: {" + boundaries.width + ", " + boundaries.height + "}");
+        System.out.println("Location: {" + location.x + ", " + location.y + "}");
+    }
 
 }
