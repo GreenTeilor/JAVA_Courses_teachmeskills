@@ -9,7 +9,6 @@ public class Run {
     public static void main(String[] args) {
         Animal.AnimalsArray animals = new Animal.AnimalsArray(0);
         Scanner scanner = new Scanner(System.in);
-        //scanner.useDelimiter(" ");
         Animal animal;
         String picture;
         String food;
@@ -41,7 +40,7 @@ public class Run {
                 case 2 -> {
                     System.out.print("Input picture: ");
                     if ((animal = animals.find(scanner.next())) != null)
-                        animal.printInfo();
+                        System.out.println(animal);
                     else
                         System.out.println("Not found!");
                 }
@@ -49,7 +48,7 @@ public class Run {
                     System.out.print("Input picture: ");
                     if ((animal = animals.find(scanner.next())) != null) {
                         System.out.println("Current animal characteristics: ");
-                        animal.printInfo();
+                        System.out.println(animal);
                         System.out.print("Input new animal characteristics(picture, food, hunger, boundaries, location): ");
                         picture = scanner.next();
                         food = scanner.next();

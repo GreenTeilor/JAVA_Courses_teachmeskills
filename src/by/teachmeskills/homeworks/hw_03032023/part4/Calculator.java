@@ -26,23 +26,19 @@ public class Calculator {
         this.operand2 = operand2;
     }
 
-    public double add()
-    {
+    public double add() {
         return operand1 + operand2;
     }
 
-    public double subtract()
-    {
+    public double subtract() {
         return operand1 - operand2;
     }
 
-    public double multiply()
-    {
+    public double multiply() {
         return operand1 * operand2;
     }
 
-    public double divide()
-    {
+    public double divide() {
         return operand1 / operand2;
     }
 

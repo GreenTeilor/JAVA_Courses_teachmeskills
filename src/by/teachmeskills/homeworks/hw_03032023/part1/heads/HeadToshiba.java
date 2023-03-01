@@ -7,10 +7,6 @@ public class HeadToshiba implements IHead {
         this.price = price;
     }
 
-    public HeadToshiba() {
-
-    }
-
     @Override
     public void speak() {
         System.out.println("Toshiba head speaks");

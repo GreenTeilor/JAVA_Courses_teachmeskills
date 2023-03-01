@@ -7,10 +7,6 @@ public class LegSony implements ILeg {
         this.price = price;
     }
 
-    public LegSony() {
-
-    }
-
     @Override
     public void step() {
         System.out.println("Sony leg stepped");

@@ -14,7 +14,7 @@ public class TruckGroundTransport extends GroundTransport{
 
     @Override
     public String toString() {
-        return "Power(horsepower): " + power + ", Power(kW): " + power*0.74 + "; Maximum speed: " + maximumSpeed + "; Weight: " + weight
+        return "Power(horsepower): " + power + ", Power(kW): " + this.powerInKW() + "; Maximum speed: " + maximumSpeed + "; Weight: " + weight
                 + "; Brand: " + brand + "; Wheels amount: " + wheelsAmount + "; Fuel consumption: " + fuelConsumption + "; Load capacity: "
                 + loadCapacity;
     }

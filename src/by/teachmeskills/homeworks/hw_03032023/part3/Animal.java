@@ -79,17 +79,18 @@ public abstract class Animal {
         }
 
         public void add(Animal animal) {
-            Animal[] tempArray = new Animal[animals.length + 1];
-            System.arraycopy(animals, 0, tempArray, 0, animals.length);
-            tempArray[tempArray.length - 1] = animal;
-            animals = new Animal[animals.length + 1];
-            System.arraycopy(tempArray, 0, animals, 0, animals.length);
+            Animal[] updatedAnimals = new Animal[animals.length + 1];
+            System.arraycopy(animals, 0, updatedAnimals, 0, animals.length);
+            updatedAnimals[updatedAnimals.length - 1] = animal;
+            animals = updatedAnimals;
         }
 
         public Animal find(String picture) {
-            for (Animal animal : animals)
-                if (animal.picture.contains(picture))
+            for (Animal animal : animals) {
+                if (animal.picture.contains(picture)) {
                     return animal;
+                }
+            }
             return null;
         }
 
@@ -123,20 +124,24 @@ public abstract class Animal {
     }
 
     protected abstract void makeNoise();
+
     protected abstract void eat();
+
     protected void sleep() {
         System.out.println("Sleeping...");
     }
+
     protected void roam() {
         System.out.println("Roaming...");
     }
 
-    public void printInfo() {
-        System.out.println("Picture: " + picture);
-        System.out.println("Food: " + food);
-        System.out.println("Hunger: " + hunger);
-        System.out.println("Boundaries: {" + boundaries.width + ", " + boundaries.height + "}");
-        System.out.println("Location: {" + location.x + ", " + location.y + "}");
+    @Override
+    public String toString() {
+        return "Picture: " + picture +
+                "\nFood: " + food +
+                "\nHunger: " + hunger +
+                "\nBoundaries: {" + boundaries.width + ", " + boundaries.height + "}" +
+                "\nLocation: {" + location.x + ", " + location.y + "}\n";
     }
 
 }

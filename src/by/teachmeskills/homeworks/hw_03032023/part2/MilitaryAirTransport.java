@@ -25,7 +25,7 @@ public class MilitaryAirTransport extends AirTransport{
 
     @Override
     public String toString() {
-        return "Power(horsepower): " + power + ", Power(kW): " + power*0.74 + "; Maximum speed: " + maximumSpeed + "; Weight: " + weight
+        return "Power(horsepower): " + power + ", Power(kW): " + this.powerInKW() + "; Maximum speed: " + maximumSpeed + "; Weight: " + weight
                 + "; Brand: " + brand + "; Wingspan: " + wingSpan + "; Minimal runway length: " + minimalRunWayLength + "; Rockets amount: "
                 + missilesAmount + "; Has bailout system: " + hasBailoutSystem;
     }

@@ -7,10 +7,6 @@ public class HandToshiba implements IHand {
         this.price = price;
     }
 
-    public HandToshiba() {
-
-    }
-
     @Override
     public void upHand() {
         System.out.println("Toshiba hand up");

@@ -7,10 +7,6 @@ public class LegSamsung implements ILeg {
         this.price = price;
     }
 
-    public LegSamsung() {
-
-    }
-
     @Override
     public void step() {
         System.out.println("Samsung leg stepped");

@@ -14,7 +14,6 @@ public class PassengerGroundTransport extends GroundTransport {
         return ( hoursPassed * maximumSpeed ) / 100 * fuelConsumption;
     }
 
-    //result[0] - kilometers passed, result[1] - fuel consumed
     public void printTripResults(double hoursPassed) {
         System.out.println("In " + hoursPassed + " hours, an " +  brand + " car, driving at a maximum speed of " + maximumSpeed +  "km/h, will drive "
                 +  hoursPassed*maximumSpeed + "km and consume " + fuelConsumed(hoursPassed) + " liters of fuel");
@@ -22,7 +21,7 @@ public class PassengerGroundTransport extends GroundTransport {
 
     @Override
     public String toString() {
-        return "Power(horsepower): " + power + ", Power(kW): " + power*0.74 + "; Maximum speed: " + maximumSpeed + "; Weight: " + weight
+        return "Power(horsepower): " + power + ", Power(kW): " + this.powerInKW() + "; Maximum speed: " + maximumSpeed + "; Weight: " + weight
                 + "; Brand: " + brand + "; Wheels amount: " + wheelsAmount + "; Fuel consumption: " + fuelConsumption + "; Body type: "
                 + bodyType + "; passengerCapacity: " + passengerCapacity;
     }

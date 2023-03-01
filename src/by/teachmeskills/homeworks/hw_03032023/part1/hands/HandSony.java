@@ -7,10 +7,6 @@ public class HandSony implements IHand {
         this.price = price;
     }
 
-    public HandSony() {
-
-    }
-
     @Override
     public void upHand() {
         System.out.println("Sony hand up");
