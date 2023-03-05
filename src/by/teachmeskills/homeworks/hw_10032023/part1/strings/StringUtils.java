@@ -14,19 +14,19 @@ public class StringUtils {
         return string.endsWith("!!!");
     }
 
-    public static boolean isBeleberda(String string) {
+    public static boolean checkStartsWith(String string) {
         return string.startsWith("Сиреневенький синхрофазатрон");
     }
 
-    public static boolean containsString(String processedsString, String subString) {
-        return processedsString.contains(subString);
+    public static boolean containsString(String processedString, String subString) {
+        return processedString.contains(subString);
     }
 
-    public static String upCase(String string) {
+    public static String toUpperCase(String string) {
         return string.toUpperCase();
     }
 
-    public static String lowCase(String string) {
+    public static String toLowerCase(String string) {
         return string.toLowerCase();
     }
 
@@ -50,7 +50,7 @@ public class StringUtils {
         return String.valueOf(builder);
     }
 
-    public static String middle(String string1, String string2) {
+    public static String getMiddleString(String string1, String string2) {
         String result = string1 + string2;
         return Character.toString(result.charAt(result.length() / 2 - 1)) + result.charAt(result.length() / 2);
     }

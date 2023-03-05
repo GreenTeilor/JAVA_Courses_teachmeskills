@@ -1,4 +1,6 @@
-package by.teachmeskills.homeworks.hw_10032023.part1.exceptions;
+package by.teachmeskills.homeworks.hw_10032023.part1.Car;
+
+import by.teachmeskills.homeworks.hw_10032023.part1.exceptions.CarNotStartedException;
 
 public class Run {
     public static void main(String[] args) {
@@ -9,7 +11,7 @@ public class Run {
             car1.start();
             car2.start();
             car3.start();
-        } catch(CarDidntStartException e) {
+        } catch(CarNotStartedException e) {
             System.out.println(e.getMessage());
         }
 

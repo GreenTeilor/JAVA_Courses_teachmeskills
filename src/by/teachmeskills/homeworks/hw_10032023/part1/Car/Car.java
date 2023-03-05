@@ -1,4 +1,6 @@
-package by.teachmeskills.homeworks.hw_10032023.part1.exceptions;
+package by.teachmeskills.homeworks.hw_10032023.part1.Car;
+
+import by.teachmeskills.homeworks.hw_10032023.part1.exceptions.CarNotStartedException;
 
 public class Car {
     private int speed;
@@ -59,9 +61,9 @@ public class Car {
         this.brand = brand;
     }
 
-    public void start() throws CarDidntStartException{
+    public void start() throws CarNotStartedException {
         if (((int) ( Math.random() * 21 ) & 1) == 0) {
-            throw new CarDidntStartException("Машина не была заведена!");
+            throw new CarNotStartedException("Машина не была заведена!");
         }
         else {
             System.out.println("Автомобиль с маркой " + brand +  " завёлся!");
