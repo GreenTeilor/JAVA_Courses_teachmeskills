@@ -2,7 +2,9 @@ package by.teachmeskills.homeworks.hw_10032023.part1.Car;
 
 import by.teachmeskills.homeworks.hw_10032023.part1.exceptions.CarNotStartedException;
 
-public class Car {
+import java.io.Serializable;
+
+public class Car implements Serializable {
     private int speed;
     private int price;
     private CarBrand brand;
