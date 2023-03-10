@@ -6,27 +6,19 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Run {
+    private static final String directory = "D:\\files\\censure\\";
+
     public static void main(String[] args) {
-        File fileToCensure = new File("src\\by\\teachmeskills\\homeworks\\hw_17032023\\censure\\input.txt");
-        File fileBlackList = new File("src\\by\\teachmeskills\\homeworks\\hw_17032023\\censure\\blackList.txt");
-        String result = Censurer.censure(fileToCensure, fileBlackList);
+        File fileToCensure = new File(directory + "input.txt");
+        File fileBlackList = new File(directory + "blackList.txt");
+        String result = CensureUtil.censure(fileToCensure, fileBlackList);
         System.out.println(result);
-        BufferedWriter writer = null;
-        try {
-            writer = new BufferedWriter(new FileWriter("src\\by\\teachmeskills\\homeworks\\hw_17032023\\censure\\output.txt"));
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(directory + "output.txt"))) {
             if (result != null) {
                 writer.write(result);
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
-        } finally {
-            if (writer != null) {
-                try {
-                    writer.close();
-                } catch (IOException e) {
-                    System.out.println("Данные потеряны...");
-                }
-            }
         }
     }
 

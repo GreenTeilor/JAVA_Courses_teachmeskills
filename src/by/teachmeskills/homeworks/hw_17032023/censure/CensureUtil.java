@@ -1,6 +1,6 @@
 package by.teachmeskills.homeworks.hw_17032023.censure;
 
-import by.teachmeskills.homeworks.hw_17032023.formatter.FileSplitter;
+import by.teachmeskills.homeworks.hw_17032023.formatter.FileSplitterUtil;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -8,16 +8,13 @@ import java.io.IOException;
 import java.io.File;
 import java.util.Arrays;
 
-public class Censurer {
-    private Censurer() {
+public class CensureUtil {
+    private CensureUtil() {
 
     }
 
-
     public static String censure(File fileToCensure, File fileBlackList) {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader("src\\by\\teachmeskills\\homeworks\\hw_17032023\\censure\\blackList.txt"));
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileBlackList))) {
             String[] blackList = new String[0];
             String line;
             StringBuilder result = new StringBuilder("");
@@ -32,7 +29,7 @@ public class Censurer {
             int sentenceNumber = 0;
             int inappropriateSentencesCounter = 0;
             boolean isAppropriateSentence = true;
-            String[] sentences = FileSplitter.getSentences(new File("src\\by\\teachmeskills\\homeworks\\hw_17032023\\censure\\input.txt"), true);
+            String[] sentences = FileSplitterUtil.getSentences(fileToCensure, true);
             if (sentences != null) {
                 for (String sentence : sentences) {
                     ++sentenceNumber;
@@ -57,14 +54,6 @@ public class Censurer {
             return result.toString();
         } catch (IOException e) {
             System.out.println(e.getMessage());
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    System.out.println("Данные потеряны...");
-                }
-            }
         }
         return null;
     }

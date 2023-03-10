@@ -1,8 +1,8 @@
 package by.teachmeskills.homeworks.hw_17032023.formatter;
 
-public class TextFormatter {
+public class TextFormatterUtil {
 
-    private TextFormatter() {
+    private TextFormatterUtil() {
 
     }
 

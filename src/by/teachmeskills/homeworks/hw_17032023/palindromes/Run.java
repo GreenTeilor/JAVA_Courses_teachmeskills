@@ -7,12 +7,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Run {
+    private static final String directory = "D:\\files\\palindromes\\";
+
     public static void main(String[] args) {
-        BufferedReader reader = null;
-        BufferedWriter writer = null;
-        try {
-            reader = new BufferedReader(new FileReader("src\\by\\teachmeskills\\homeworks\\hw_17032023\\palindroms\\input.txt"));
-            writer = new BufferedWriter(new FileWriter("src\\by\\teachmeskills\\homeworks\\hw_17032023\\palindroms\\output.txt"));
+        try (BufferedReader reader = new BufferedReader(new FileReader(directory + "input.txt"));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(directory + "output.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 StringBuilder builder = new StringBuilder(line);
@@ -23,16 +22,6 @@ public class Run {
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
-        } finally {
-            if (reader != null && writer != null) {
-                try {
-                    writer.close();
-                    reader.close();
-                } catch (IOException e) {
-                    System.out.println("Данные потеряны...");
-                }
-            }
         }
-
     }
 }

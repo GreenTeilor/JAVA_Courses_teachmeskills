@@ -4,16 +4,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class FileSplitter {
-    private FileSplitter() {
+public class FileSplitterUtil {
+    private FileSplitterUtil() {
 
     }
 
     public static String[] getSentences(File file, boolean removeNextLineCharacters) {
         String[] sentences = new String[0];
-        FileReader reader = null;
-        try {
-            reader = new FileReader(file);
+        try (FileReader reader = new FileReader(file)) {
             int code;
             while ((code = reader.read()) != -1) {
                 StringBuilder sentence = new StringBuilder("");
@@ -22,8 +20,7 @@ public class FileSplitter {
                         if ((char) code != '\r' && (char) code != '\n') {
                             sentence.append((char) code);
                         }
-                    } else
-                        sentence.append((char) code);
+                    } else sentence.append((char) code);
                     code = reader.read();
                 }
                 if (code != -1) {
@@ -39,14 +36,6 @@ public class FileSplitter {
             return sentences;
         } catch (IOException e) {
             System.out.println(e.getMessage());
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    System.out.println("Данные потеряны...");
-                }
-            }
         }
         return null;
     }
