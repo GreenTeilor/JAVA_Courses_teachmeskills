@@ -1,0 +1,9 @@
+Document: contractSOME123; Validity: Name is valid
+Document: contra123456abЯ; Validity: Document name does not match the "docnum" or "contract"
+Document: documn578239506; Validity: Document name does not match the "docnum" or "contract"
+Document: docnum_23456abc; Validity: Document number is incorrect, position of first invalid character: 6
+Document: contract762yY5J; Validity: Name is valid
+Document: contract123456abc; Validity: Length of the document is not 15, but 17
+Document: docnum_123abckd; Validity: Document number is incorrect, position of first invalid character: 6
+Document: docnumYTG86ks12; Validity: Name is valid
+Document: docnum123456abc; Validity: Name is valid
