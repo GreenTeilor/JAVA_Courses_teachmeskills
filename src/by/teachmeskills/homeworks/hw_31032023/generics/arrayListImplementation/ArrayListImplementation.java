@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.AbstractList;
 
-public class ArrayListImplementation<T> extends AbstractList<T>{
+public class ArrayListImplementation<T> extends AbstractList<T> {
 
     private Object[] array;
     private int size;
@@ -104,95 +104,137 @@ public class ArrayListImplementation<T> extends AbstractList<T>{
     @Override
     public void clear() {
         array = new Object[0];
+        size = 0;
     }
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
-    }
-
-    @Override
-    public Iterator iterator() {
-        return null;
+        return size == 0;
     }
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        return Arrays.copyOf(array, size);
     }
 
     @Override
-    public boolean add(Object o) {
-        return false;
+    public boolean add(T o) {
+        int previousSize = size;
+        this.add(size, o);
+        return size > previousSize;
     }
 
     @Override
     public boolean remove(Object o) {
+        for (int i = 0; i < size; ++i) {
+            if (o.equals(array[i])) {
+                this.remove(i);
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
     public boolean addAll(Collection c) {
-        return false;
+        Object[] arrayCopy = Arrays.copyOf(array, size);
+        for (Object element : c) {
+            if (!this.add((T) element)) {
+                array = arrayCopy;
+                size = array.length;
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public boolean addAll(int index, Collection c) {
-        return false;
+        Object[] arrayCopy = Arrays.copyOf(array, size);
+        int i = index;
+        for (Object element : c) {
+            this.add(i, (T) element);
+            ++i;
+        }
+        if (array.length != c.size() + arrayCopy.length) {
+            array = arrayCopy;
+            size = array.length;
+            return false;
+        }
+        return true;
     }
 
     @Override
     public Object set(int index, Object element) {
-        return null;
+        Object previousElement = this.get(index);
+        if (previousElement != null) {
+            array[index] = element;
+        }
+        return previousElement;
     }
 
     @Override
     public int indexOf(Object o) {
-        return 0;
+        for (int i = 0; i < size; ++i) {
+            if (array[i].equals(o)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
-    }
-
-    @Override
-    public ListIterator listIterator() {
-        return null;
-    }
-
-    @Override
-    public ListIterator listIterator(int index) {
-        return null;
-    }
-
-    @Override
-    public List subList(int fromIndex, int toIndex) {
-        return null;
+        for (int i = size - 1; i >= 0; --i) {
+            if (array[i].equals(o)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
     public boolean retainAll(Collection c) {
-        return false;
+        int previousSize = size;
+        int i = 0;
+        while (i < size) {
+            if (!c.contains(array[i])) {
+                this.remove(array[i]);
+            }
+            else {
+                ++i;
+            }
+        }
+        return previousSize != size;
     }
 
     @Override
     public boolean removeAll(Collection c) {
-        return false;
+        int previousSize = size;
+        int i = 0;
+        while (i < size) {
+            if (c.contains(array[i])) {
+                this.remove(array[i]);
+            }
+            else {
+                ++i;
+            }
+        }
+        return previousSize != size;
     }
 
     @Override
     public boolean containsAll(Collection c) {
-        return false;
-    }
-
-    @Override
-    public Object[] toArray(Object[] a) {
-        return new Object[0];
+        for (Object element : c) {
+            if (!this.contains(element)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -4,11 +4,39 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 public class Tests {
+
+    public <T> void commonTest(ArrayListImplementation<T> list) {
+        list.clear();
+        assertEquals("clear() doesn't work", "[]", list.toString());
+        assertEquals("size() doesn't work", 0, list.size());
+        assertTrue("isEmpty() doesn't work", list.isEmpty());
+        list.add((T)"hello");
+        list.add((T)"world");
+        assertEquals("Element added wrong", "[ hello  world ]", list.toString());
+        assertEquals("toArray() doesn't work", "[hello, world]", Arrays.toString(list.toArray()));
+        list.addAll(Arrays.asList("and", "sun"));
+        assertEquals("addAll() doesn't work", "[ hello  world  and  sun ]", list.toString());
+        list.addAll(1, Arrays.asList( "fascinating", "beautiful"));
+        assertEquals("addAll() by index doesn't work", "[ hello  fascinating  beautiful  world  and  sun ]", list.toString());
+        assertNull("set()doesn't work", list.set(10, "someInfo"));
+        list.set(0, "Hi");
+        assertEquals("set() doesn't work", "[ Hi  fascinating  beautiful  world  and  sun ]", list.toString());
+        assertEquals("indexOf() doesn't work", -1, list.indexOf("someInfo"));
+        assertEquals("indexOf() doesn't work", 3, list.indexOf("world"));
+        list.add((T)new String("world"));
+        assertEquals("lastIndexOf() doesn't work", 6, list.lastIndexOf("world"));
+        list.retainAll(Arrays.asList("Hi", "world", "someInfo", "sun"));
+        assertEquals("retainAll() doesn't work", "[ Hi  world  sun  world ]", list.toString());
+        list.removeAll(Arrays.asList("world", "sun"));
+        assertEquals("removeAll() doesn't work", "[ Hi ]", list.toString());
+        list.add((T)"somebody");
+        assertTrue("containsAll() doesn't work", list.containsAll(Arrays.asList("Hi", "somebody")));
+        assertTrue("containsAll() doesn't work", list.containsAll(Arrays.asList("Hi")));
+        assertFalse("containsAll() doesn't work", list.containsAll(Arrays.asList("Hi", "somebody", "someInfo")));
+    }
 
     //Initial capacity - 0
     @Test
@@ -28,8 +56,7 @@ public class Tests {
         assertFalse("contains() with null doesn't work", list.contains(null));
         list.add(0, null);
         assertTrue("add() with null doesn't work", list.contains(null));
-        list.clear();
-        assertEquals("clear() doesn't work", "[]", list.toString());
+        commonTest(list);
     }
 
     ////Initial capacity - 10
@@ -50,10 +77,10 @@ public class Tests {
         assertFalse("contains() with null doesn't work", list.contains(null));
         list.add(0, null);
         assertTrue("add() with null doesn't work", list.contains(null));
-        list.clear();
-        assertEquals("clear() doesn't work", "[]", list.toString());
+        commonTest(list);
     }
 
+    //Initialized with collection
     @Test
     public void test3() {
         ArrayListImplementation<String> list = new ArrayListImplementation<>(Arrays.asList("1", "2"));
@@ -71,8 +98,7 @@ public class Tests {
         assertFalse("contains() with null doesn't work", list.contains(null));
         list.add(0, null);
         assertTrue("add() with null doesn't work", list.contains(null));
-        list.clear();
-        assertEquals("clear() doesn't work", "[]", list.toString());
+        commonTest(list);
     }
 
 }
