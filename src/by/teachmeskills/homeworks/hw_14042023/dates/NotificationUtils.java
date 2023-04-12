@@ -9,6 +9,9 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class NotificationUtils {
@@ -16,9 +19,22 @@ public class NotificationUtils {
         try (Stream<String> stream = Files.lines(Paths.get(filePath))) {
             stream.forEach(str -> {
                 String[] words = str.split(" ");
+
+                Function<String[], Map<String, String>> toMap = data -> {
+                    Map<String, String> userData = new HashMap<>();
+                    userData.put("name", data[0]);
+                    userData.put("lastName", data[1]);
+                    userData.put("patronymic", data[2]);
+                    userData.put("birthday", data[3]);
+                    userData.put("phoneNumber", data[4]);
+                    userData.put("sex", data[5]);
+                    return userData;
+                };
+
+                Map<String, String> userData = toMap.apply(words);
                 SimpleDateFormat pattern = new SimpleDateFormat("yyyy-MM-dd");
                 try {
-                    Date date = pattern.parse(words[3]);
+                    Date date = pattern.parse(userData.get("birthday"));
                     LocalDate birthday = Instant.ofEpochMilli(date.getTime())
                             .atZone(ZoneId.systemDefault())
                             .toLocalDate();
@@ -29,19 +45,19 @@ public class NotificationUtils {
                     LocalDate dayBeforeExpiration = birthday.plusDays(6);
 
                     if (currentDate.equals(weekBeforeBirthday)) {
-                        System.out.println("Dear " + words[0] + " " + words[1] + " " + words[2] + "! bEsTsneakers shop gifts you 15% discount on " +
+                        System.out.println("Dear " + userData.get("name") + " " + userData.get("lastName") + " " + userData.get("patronymic") + "! bEsTsneakers shop gifts you 15% discount on " +
                                 GoodsGeneratorUtils.suggestGood(currentDate) + ".\n" +
                                 "Discount is valid from " + birthday.getDayOfMonth() + " of " + birthday.getMonth() + " " + birthday.getYear() + " to " +
                                 weekAfterBirthday.getDayOfMonth() + " of " + weekAfterBirthday.getMonth() + " " + weekAfterBirthday.getYear() + "\n" +
                                 "We would be happy to see you in our shop!\n");
                     } else if (currentDate.equals(birthday)) {
-                        System.out.println("Dear " + words[0] + " " + words[1] + " " + words[2] + ", happy birthday!\n" +
+                        System.out.println("Dear " + userData.get("name") + " " + userData.get("lastName") + " " + userData.get("patronymic") + ", happy birthday!\n" +
                                 "bEsTsneakers shop gifts you 15% discount on " + GoodsGeneratorUtils.suggestGood(currentDate) + ".\n" +
                                 "Discount is valid from " + birthday.getDayOfMonth() + " of " + birthday.getMonth() + " " + birthday.getYear() + " to " +
                                 weekAfterBirthday.getDayOfMonth() + " of " + weekAfterBirthday.getMonth() + " " + weekAfterBirthday.getYear() + "\n" +
                                 "We would be happy to see you in our shop!\n");
                     } else if (currentDate.equals(dayBeforeExpiration)) {
-                        System.out.println("Dear " + words[0] + " " + words[1] + " " + words[2] + "!\n" +
+                        System.out.println("Dear " + userData.get("name") + " " + userData.get("lastName") + " " + userData.get("patronymic") + "!\n" +
                                 "bEsTsneakers shop reminds about 15% discount on " + GoodsGeneratorUtils.suggestGood(currentDate) + ".\n" +
                                 "Discount is valid from " + birthday.getDayOfMonth() + " of " + birthday.getMonth() + " " + birthday.getYear() + " to " +
                                 weekAfterBirthday.getDayOfMonth() + " of " + weekAfterBirthday.getMonth() + " " + weekAfterBirthday.getYear() + "\n" +
