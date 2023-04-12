@@ -44,25 +44,11 @@ public class NotificationUtils {
                     LocalDate weekAfterBirthday = birthday.plusDays(7);
                     LocalDate dayBeforeExpiration = birthday.plusDays(6);
 
-                    if (currentDate.equals(weekBeforeBirthday)) {
-                        System.out.println("Dear " + userData.get("name") + " " + userData.get("lastName") + " " + userData.get("patronymic") + "! bEsTsneakers shop gifts you 15% discount on " +
-                                GoodsGeneratorUtils.suggestGood(currentDate) + ".\n" +
-                                "Discount is valid from " + birthday.getDayOfMonth() + " of " + birthday.getMonth() + " " + birthday.getYear() + " to " +
-                                weekAfterBirthday.getDayOfMonth() + " of " + weekAfterBirthday.getMonth() + " " + weekAfterBirthday.getYear() + "\n" +
-                                "We would be happy to see you in our shop!\n");
-                    } else if (currentDate.equals(birthday)) {
-                        System.out.println("Dear " + userData.get("name") + " " + userData.get("lastName") + " " + userData.get("patronymic") + ", happy birthday!\n" +
-                                "bEsTsneakers shop gifts you 15% discount on " + GoodsGeneratorUtils.suggestGood(currentDate) + ".\n" +
-                                "Discount is valid from " + birthday.getDayOfMonth() + " of " + birthday.getMonth() + " " + birthday.getYear() + " to " +
-                                weekAfterBirthday.getDayOfMonth() + " of " + weekAfterBirthday.getMonth() + " " + weekAfterBirthday.getYear() + "\n" +
-                                "We would be happy to see you in our shop!\n");
-                    } else if (currentDate.equals(dayBeforeExpiration)) {
-                        System.out.println("Dear " + userData.get("name") + " " + userData.get("lastName") + " " + userData.get("patronymic") + "!\n" +
-                                "bEsTsneakers shop reminds about 15% discount on " + GoodsGeneratorUtils.suggestGood(currentDate) + ".\n" +
-                                "Discount is valid from " + birthday.getDayOfMonth() + " of " + birthday.getMonth() + " " + birthday.getYear() + " to " +
-                                weekAfterBirthday.getDayOfMonth() + " of " + weekAfterBirthday.getMonth() + " " + weekAfterBirthday.getYear() + "\n" +
-                                "We would be happy to see you in our shop!\n");
-                    }
+                    UserNotifications messages = new UserNotifications(userData.get("name"), userData.get("lastName"), userData.get("patronymic"), weekBeforeBirthday,
+                            birthday, dayBeforeExpiration, weekAfterBirthday);
+                    messages.firstNotification();
+                    messages.birthdayNotification();
+                    messages.lastNotification();
 
                 } catch (ParseException e) {
                     System.out.println(e.getMessage());
