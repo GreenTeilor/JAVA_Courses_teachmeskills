@@ -1,3 +1,3 @@
 module client {
-
+    requires tmspaymentsystem;
 }

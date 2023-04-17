@@ -3,13 +3,13 @@ package bankAccount;
 import java.time.LocalDate;
 
 public class BankAccount implements Comparable<BankAccount> {
-    private int merchantId;
+    private String merchantId;
     private AccountStatus status;
     private String accountNumber;
     LocalDate createdAt;
 
     //Constructor to add new account
-    public BankAccount(int merchantId, String accountNumber) {
+    public BankAccount(String merchantId, String accountNumber) {
         this.merchantId = merchantId;
         this.status = AccountStatus.ACTIVE;
         this.accountNumber = accountNumber;
@@ -17,7 +17,7 @@ public class BankAccount implements Comparable<BankAccount> {
     }
 
     //Constructor to read bank account info from file
-    public BankAccount(int merchantId, AccountStatus status, String accountNumber, LocalDate createdAt) {
+    public BankAccount(String merchantId, AccountStatus status, String accountNumber, LocalDate createdAt) {
         this.merchantId = merchantId;
         this.status = status;
         this.accountNumber = accountNumber;
@@ -40,7 +40,7 @@ public class BankAccount implements Comparable<BankAccount> {
         this.accountNumber = accountNumber;
     }
 
-    public int getMerchantId() {
+    public String getMerchantId() {
         return merchantId;
     }
 
@@ -54,5 +54,10 @@ public class BankAccount implements Comparable<BankAccount> {
             return this.status == AccountStatus.ACTIVE ? -1 : 1;
         }
         return this.createdAt.compareTo(bankAccount.createdAt);
+    }
+
+    @Override
+    public String toString() {
+        return merchantId + " " + status + " " + accountNumber + " " + createdAt;
     }
 }

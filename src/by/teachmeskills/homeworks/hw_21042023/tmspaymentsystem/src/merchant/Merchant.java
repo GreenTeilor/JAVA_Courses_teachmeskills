@@ -30,6 +30,7 @@ public class Merchant {
         this.id = id;
         this.name = name;
         this.createdAt = createdAt;
+        bankAccounts = new ArrayList<>();
     }
 
     public BankAccount addBankAccount(BankAccount bankAccount) throws IllegalArgumentException {
@@ -42,7 +43,7 @@ public class Merchant {
         return bankAccount;
     }
 
-    public List<BankAccount> getBankAccounts() throws NoBankAccountsFoundException{
+    public List<BankAccount> getBankAccounts() throws NoBankAccountsFoundException {
         if (bankAccounts.size() == 0) {
             throw new NoBankAccountsFoundException("No accounts found");
         }
@@ -60,5 +61,15 @@ public class Merchant {
 
     public LocalDate getCreationDate() {
         return createdAt;
+    }
+
+    public BankAccount getAccountByNumber(String number) {
+        Optional<BankAccount> account = bankAccounts.stream().filter(a -> a.getAccountNumber().equals(number)).findFirst();
+        return account.orElse(null);
+    }
+
+    @Override
+    public String toString() {
+        return id + " " + name + " " + bankAccounts.toString() + " " + createdAt;
     }
 }

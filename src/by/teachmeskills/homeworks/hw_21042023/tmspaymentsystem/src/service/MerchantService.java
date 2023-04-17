@@ -5,14 +5,28 @@ import bankAccount.BankAccount;
 import exceptions.BankAccountNotFoundException;
 import exceptions.MerchantAlreadyHasBankAccountNumberException;
 import exceptions.NoBankAccountsFoundException;
+import filesOperations.FilesOperationsUtils;
 import merchant.Merchant;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MerchantService {
     List<Merchant> merchants;
+
+    public MerchantService(File merchantsFile, File bankAccountsFile) {
+        merchants = FilesOperationsUtils.readMerchants(merchantsFile);
+        List<BankAccount> bankAccounts = FilesOperationsUtils.readBankAccounts(bankAccountsFile);
+        for (Merchant merchant : merchants) {
+            for (BankAccount bankAccount : bankAccounts) {
+                if (merchant.getId().equals(bankAccount.getMerchantId())) {
+                    merchant.addBankAccount(bankAccount);
+                }
+            }
+        }
+    }
 
     public BankAccount addBankAccount(Merchant merchant, BankAccount bankAccount) throws IllegalArgumentException {
         merchant.addBankAccount(bankAccount);

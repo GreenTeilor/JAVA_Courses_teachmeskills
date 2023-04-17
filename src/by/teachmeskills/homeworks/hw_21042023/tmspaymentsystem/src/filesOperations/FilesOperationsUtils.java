@@ -12,24 +12,23 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.HashMap;
-import java.util.function.Function;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public class FilesOperationsUtils {
 
     public static void saveMerchant(File file, Merchant merchant) {
-        try (FileWriter writer = new FileWriter(file)) {
-            writer.write(merchant.getId() + " " + merchant.getName() + " " + merchant.getCreationDate());
+        try (FileWriter writer = new FileWriter(file, true)) {
+            writer.write(merchant.getId() + " " + merchant.getName() + " " + merchant.getCreationDate() + "\n");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
 
     public static void saveBankAccount(File file, BankAccount bankAccount) {
-        try (FileWriter writer = new FileWriter(file)) {
+        try (FileWriter writer = new FileWriter(file, true)) {
             writer.write(bankAccount.getMerchantId() + " " + bankAccount.getStatus() + " " +
-                    bankAccount.getAccountNumber() + " " + bankAccount.getCreationDate());
+                    bankAccount.getAccountNumber() + " " + bankAccount.getCreationDate() + "\n");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -39,16 +38,7 @@ public class FilesOperationsUtils {
         List<Merchant> merchants = new ArrayList<>();
         try (Stream<String> stream = Files.lines(file.toPath())) {
             stream.forEach(str -> {
-                String[] words = str.split(" ");
-                Function<String[], Map<String, String>> toMap = data -> {
-                    Map<String, String> merchantData = new HashMap<>();
-                    merchantData.put("id", data[0]);
-                    merchantData.put("name", data[1]);
-                    merchantData.put("createdAt", data[2]);
-                    return merchantData;
-                };
-
-                Map<String, String> merchantData = toMap.apply(words);
+                Map<String, String> merchantData = ConverterUtils.toMerchantMap(str);
                 LocalDate createdAt = ConverterUtils.toLocalDate(merchantData.get("createdAt"));
                 merchants.add(new Merchant(merchantData.get("id"), merchantData.get("name"), createdAt));
             });
@@ -62,24 +52,39 @@ public class FilesOperationsUtils {
         List<BankAccount> bankAccounts = new ArrayList<>();
         try (Stream<String> stream = Files.lines(file.toPath())) {
             stream.forEach(str -> {
-                String[] words = str.split(" ");
-                Function<String[], Map<String, String>> toMap = data -> {
-                    Map<String, String> bankAccountData = new HashMap<>();
-                    bankAccountData.put("merchantId", data[0]);
-                    bankAccountData.put("status", data[1]);
-                    bankAccountData.put("accountNumber", data[2]);
-                    bankAccountData.put("createdAt", data[3]);
-                    return bankAccountData;
-                };
-
-                Map<String, String> bankAccountData = toMap.apply(words);
+                Map<String, String> bankAccountData = ConverterUtils.toBankAccountMap(str);
                 LocalDate createdAt = ConverterUtils.toLocalDate(bankAccountData.get("createdAt"));
                 AccountStatus status = ConverterUtils.toAccountStatus(bankAccountData.get("status"));
-                bankAccounts.add(new BankAccount(Integer.parseInt(bankAccountData.get("merchantId")), status, bankAccountData.get("accountNumber"), createdAt));
+                bankAccounts.add(new BankAccount(bankAccountData.get("merchantId"), status, bankAccountData.get("accountNumber"), createdAt));
             });
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
         return bankAccounts;
+    }
+
+    public static void deleteBankAccountsFromFile(File file, List<BankAccount> bankAccountsToDelete) {
+        List<BankAccount> bankAccounts = readBankAccounts(file);
+        file.delete();
+        bankAccountsToDelete.forEach(toDelete -> bankAccounts.stream().filter(a -> a.getAccountNumber().equals(toDelete.getAccountNumber()) &&
+                a.getMerchantId().equals(toDelete.getMerchantId())).forEach(a -> a.setStatus(AccountStatus.DELETED)));
+        bankAccounts.forEach(a -> saveBankAccount(file, a));
+    }
+
+    public static void deleteMerchantFromFile(File file, Merchant merchant) {
+        List<Merchant> merchants = readMerchants(file);
+        file.delete();
+        Optional<Merchant> mer = merchants.stream().filter(m -> m.getId().equals(merchant.getId())).findFirst();
+        mer.ifPresent(merchants::remove);
+        merchants.forEach(m -> saveMerchant(file, m));
+    }
+
+    public static void updateBankAccountInFile(File file, BankAccount bankAccount, String newBankAccountNumber) {
+        List<BankAccount> bankAccounts = readBankAccounts(file);
+        file.delete();
+        Optional<BankAccount> account = bankAccounts.stream().filter(a -> a.getMerchantId().equals(bankAccount.getMerchantId()) &&
+                a.getAccountNumber().equals(bankAccount.getAccountNumber())).findFirst();
+        account.ifPresent(a -> a.setAccountNumber(newBankAccountNumber));
+        bankAccounts.forEach(a -> saveBankAccount(file, a));
     }
 }
