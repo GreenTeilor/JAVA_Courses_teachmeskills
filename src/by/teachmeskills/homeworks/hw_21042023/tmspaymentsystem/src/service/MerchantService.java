@@ -1,8 +1,11 @@
-package by.teachmeskills.homeworks.hw_21042023;
+package service;
 
-import by.teachmeskills.homeworks.hw_21042023.exceptions.BankAccountNotFoundException;
-import by.teachmeskills.homeworks.hw_21042023.exceptions.MerchantAlreadyHasBankAccountNumberException;
-import by.teachmeskills.homeworks.hw_21042023.exceptions.NoBankAccountsFoundException;
+import bankAccount.AccountStatus;
+import bankAccount.BankAccount;
+import exceptions.BankAccountNotFoundException;
+import exceptions.MerchantAlreadyHasBankAccountNumberException;
+import exceptions.NoBankAccountsFoundException;
+import merchant.Merchant;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,7 +49,7 @@ public class MerchantService {
             throw new BankAccountNotFoundException("Bank account is not found");
         }
         if (isMerchantHasBankAccountNumber.get()) {
-            throw new MerchantAlreadyHasBankAccountNumberException("Merchant already has this bank account number");
+            throw new MerchantAlreadyHasBankAccountNumberException("merchant.Merchant already has this bank account number");
         }
         return bankAccount;
     }
@@ -76,5 +79,25 @@ public class MerchantService {
             throw new BankAccountNotFoundException("Bank account is not found");
         }
         return !isAccountAlreadyDeleted.get();
+    }
+
+    public Merchant createMerchant(Merchant merchant) {
+        merchants.add(merchant);
+        return merchant;
+    }
+
+    public List<Merchant> getMerchants() {
+        return merchants;
+    }
+
+    public Merchant getMerchantById(String id) {
+        Optional<Merchant> merchant = merchants.stream().filter(m -> m.getId().equals(id)).findFirst();
+        return merchant.orElse(null);
+    }
+
+    public boolean deleteMerchant(String id) {
+        Optional<Merchant> merchant = merchants.stream().filter(m -> m.getId().equals(id)).findFirst();
+        merchant.ifPresent(m -> merchants.remove(merchant.get()));
+        return merchant.isPresent();
     }
 }

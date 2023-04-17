@@ -1,7 +1,8 @@
-package by.teachmeskills.homeworks.hw_21042023;
+package merchant;
 
-import by.teachmeskills.homeworks.hw_21042023.exceptions.BankAccountNotFoundException;
-import by.teachmeskills.homeworks.hw_21042023.exceptions.NoBankAccountsFoundException;
+import bankAccount.AccountStatus;
+import bankAccount.BankAccount;
+import exceptions.NoBankAccountsFoundException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,11 +17,19 @@ public class Merchant {
     private List<BankAccount> bankAccounts;
     private LocalDate createdAt;
 
+    //Constructor to add new merchant
     public Merchant(String name) {
         this.id = String.valueOf(UUID.randomUUID());
         this.name = name;
         this.bankAccounts = new ArrayList<>();
         this.createdAt = LocalDate.now();
+    }
+
+    //Constructor to read merchant info from file
+    public Merchant(String id, String name, LocalDate createdAt) {
+        this.id = id;
+        this.name = name;
+        this.createdAt = createdAt;
     }
 
     public BankAccount addBankAccount(BankAccount bankAccount) throws IllegalArgumentException {
@@ -41,4 +50,15 @@ public class Merchant {
         return bankAccounts;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public LocalDate getCreationDate() {
+        return createdAt;
+    }
 }

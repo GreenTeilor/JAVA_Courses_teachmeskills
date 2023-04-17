@@ -1,4 +1,4 @@
-package by.teachmeskills.homeworks.hw_21042023;
+package bankAccount;
 
 import java.time.LocalDate;
 
@@ -8,11 +8,20 @@ public class BankAccount implements Comparable<BankAccount> {
     private String accountNumber;
     LocalDate createdAt;
 
+    //Constructor to add new account
     public BankAccount(int merchantId, String accountNumber) {
         this.merchantId = merchantId;
         this.status = AccountStatus.ACTIVE;
         this.accountNumber = accountNumber;
         this.createdAt = LocalDate.now();
+    }
+
+    //Constructor to read bank account info from file
+    public BankAccount(int merchantId, AccountStatus status, String accountNumber, LocalDate createdAt) {
+        this.merchantId = merchantId;
+        this.status = status;
+        this.accountNumber = accountNumber;
+        this.createdAt = createdAt;
     }
 
     public AccountStatus getStatus() {
@@ -29,6 +38,14 @@ public class BankAccount implements Comparable<BankAccount> {
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
+    }
+
+    public int getMerchantId() {
+        return merchantId;
+    }
+
+    public LocalDate getCreationDate() {
+        return createdAt;
     }
 
     @Override

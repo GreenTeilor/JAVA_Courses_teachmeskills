@@ -1,4 +1,4 @@
-package by.teachmeskills.homeworks.hw_21042023;
+package bankAccount;
 
 public enum AccountStatus {
     ACTIVE("active"), DELETED("deleted");

@@ -1,4 +1,4 @@
-package by.teachmeskills.homeworks.hw_21042023.exceptions;
+package exceptions;
 
 public class BankAccountNotFoundException extends Exception{
     public BankAccountNotFoundException(String message) {
