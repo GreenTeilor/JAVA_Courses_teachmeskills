@@ -2,6 +2,7 @@ package filesOperations;
 
 import bankAccount.AccountStatus;
 import bankAccount.BankAccount;
+import encryption.EncryptorDecryptorUtils;
 import merchant.Merchant;
 
 import java.io.File;
@@ -16,6 +17,9 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class FilesOperationsUtils {
+    private FilesOperationsUtils() {
+
+    }
 
     public static void saveMerchant(File file, Merchant merchant) {
         try (FileWriter writer = new FileWriter(file, true)) {
@@ -26,12 +30,19 @@ public class FilesOperationsUtils {
     }
 
     public static void saveBankAccount(File file, BankAccount bankAccount) {
-        try (FileWriter writer = new FileWriter(file, true)) {
-            writer.write(bankAccount.getMerchantId() + " " + bankAccount.getStatus() + " " +
-                    bankAccount.getAccountNumber() + " " + bankAccount.getCreationDate() + "\n");
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        List<BankAccount> bankAccounts = readBankAccounts(file);
+        Optional<BankAccount> account = bankAccounts.stream().filter(a -> a.getAccountNumber().equals(bankAccount.getAccountNumber()) &&
+                a.getMerchantId().equals(bankAccount.getMerchantId())).findFirst();
+        account.ifPresentOrElse(a -> a.setStatus(AccountStatus.ACTIVE), () -> bankAccounts.add(bankAccount));
+        file.delete();
+        bankAccounts.forEach(a -> {
+            try (FileWriter writer = new FileWriter(file, true)) {
+                writer.write(a.getMerchantId() + " " + a.getStatus() + " " +
+                        EncryptorDecryptorUtils.encrypt(a.getAccountNumber()) + " " + a.getCreationDate() + "\n");
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        });
     }
 
     public static List<Merchant> readMerchants(File file) {
@@ -55,7 +66,7 @@ public class FilesOperationsUtils {
                 Map<String, String> bankAccountData = ConverterUtils.toBankAccountMap(str);
                 LocalDate createdAt = ConverterUtils.toLocalDate(bankAccountData.get("createdAt"));
                 AccountStatus status = ConverterUtils.toAccountStatus(bankAccountData.get("status"));
-                bankAccounts.add(new BankAccount(bankAccountData.get("merchantId"), status, bankAccountData.get("accountNumber"), createdAt));
+                bankAccounts.add(new BankAccount(bankAccountData.get("merchantId"), status, EncryptorDecryptorUtils.decrypt(bankAccountData.get("accountNumber")), createdAt));
             });
         } catch (IOException e) {
             System.out.println(e.getMessage());
