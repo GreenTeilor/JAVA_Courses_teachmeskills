@@ -1,8 +1,9 @@
-package merchant;
+package by.teachmeskills.hw_21042023.paymentsystem.merchant;
 
-import bankAccount.AccountStatus;
-import bankAccount.BankAccount;
-import exceptions.NoBankAccountsFoundException;
+
+import by.teachmeskills.hw_21042023.paymentsystem.bankAccount.AccountStatus;
+import by.teachmeskills.hw_21042023.paymentsystem.bankAccount.BankAccount;
+import by.teachmeskills.hw_21042023.paymentsystem.exceptions.NoBankAccountsFoundException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.Collections;
+
 
 public class Merchant {
     private String id;

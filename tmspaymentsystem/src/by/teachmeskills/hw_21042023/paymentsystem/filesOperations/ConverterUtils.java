@@ -1,6 +1,8 @@
-package filesOperations;
+package by.teachmeskills.hw_21042023.paymentsystem.filesOperations;
 
-import bankAccount.AccountStatus;
+
+
+import by.teachmeskills.hw_21042023.paymentsystem.bankAccount.AccountStatus;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

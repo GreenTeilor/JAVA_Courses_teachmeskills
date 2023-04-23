@@ -1,13 +1,13 @@
-package client;
+package by.teachmeskills.hw_21042023.client;
 
-import bankAccount.BankAccount;
-import constants.FilesPaths;
-import exceptions.BankAccountNotFoundException;
-import exceptions.MerchantAlreadyHasBankAccountNumberException;
-import exceptions.NoBankAccountsFoundException;
-import filesOperations.FilesOperationsUtils;
-import merchant.Merchant;
-import service.MerchantService;
+import by.teachmeskills.hw_21042023.paymentsystem.bankAccount.BankAccount;
+import by.teachmeskills.hw_21042023.paymentsystem.constants.FilesPaths;
+import by.teachmeskills.hw_21042023.paymentsystem.exceptions.BankAccountNotFoundException;
+import by.teachmeskills.hw_21042023.paymentsystem.exceptions.MerchantAlreadyHasBankAccountNumberException;
+import by.teachmeskills.hw_21042023.paymentsystem.exceptions.NoBankAccountsFoundException;
+import by.teachmeskills.hw_21042023.paymentsystem.filesOperations.FilesOperationsUtils;
+import by.teachmeskills.hw_21042023.paymentsystem.merchant.Merchant;
+import by.teachmeskills.hw_21042023.paymentsystem.service.MerchantService;
 
 import java.io.File;
 import java.util.List;

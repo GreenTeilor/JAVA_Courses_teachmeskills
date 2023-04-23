@@ -1,4 +1,4 @@
-package encryption;
+package by.teachmeskills.hw_21042023.paymentsystem.encryption;
 
 import java.util.Base64;
 

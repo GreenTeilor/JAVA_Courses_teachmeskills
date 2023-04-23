@@ -1,4 +1,4 @@
-package bankAccount;
+package by.teachmeskills.hw_21042023.paymentsystem.bankAccount;
 
 public enum AccountStatus {
     ACTIVE("active"), DELETED("deleted");
