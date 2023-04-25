@@ -1,7 +1,5 @@
 package by.teachmeskills.hw_21042023.paymentsystem.service;
 
-
-
 import by.teachmeskills.hw_21042023.paymentsystem.bankAccount.AccountStatus;
 import by.teachmeskills.hw_21042023.paymentsystem.bankAccount.BankAccount;
 import by.teachmeskills.hw_21042023.paymentsystem.exceptions.BankAccountNotFoundException;
@@ -16,7 +14,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MerchantService {
-    List<Merchant> merchants;
+    private List<Merchant> merchants;
 
     public MerchantService(File merchantsFile, File bankAccountsFile) {
         merchants = FilesOperationsUtils.readMerchants(merchantsFile);
@@ -55,22 +53,19 @@ public class MerchantService {
                     accountWithNewNumber.ifPresentOrElse(a -> isMerchantHasBankAccountNumber.set(true), () -> bankAccount.setAccountNumber(newBankAccountNumber));
                 }
             } catch (NoBankAccountsFoundException e) {
-                /*
-                    Empty because there is no need to do anything if we didn't find any bank accounts of this merchant
-                    Purpose is to find that one account we want to update
-                */
+                System.out.println("Merchant doesn't have searched bank account");
             }
         });
         if (!isAccountFound.get()) {
             throw new BankAccountNotFoundException("Bank account is not found");
         }
         if (isMerchantHasBankAccountNumber.get()) {
-            throw new MerchantAlreadyHasBankAccountNumberException("merchant.Merchant already has this bank account number");
+            throw new MerchantAlreadyHasBankAccountNumberException("Merchant already has this bank account number");
         }
         return bankAccount;
     }
 
-    public boolean deleteBankAccount(BankAccount bankAccount) throws BankAccountNotFoundException{
+    public boolean deleteBankAccount(BankAccount bankAccount) throws BankAccountNotFoundException {
         AtomicBoolean isAccountFound = new AtomicBoolean(false);
         AtomicBoolean isAccountAlreadyDeleted = new AtomicBoolean(false);
         merchants.forEach(m -> {
@@ -85,10 +80,7 @@ public class MerchantService {
                     }
                 }
             } catch (NoBankAccountsFoundException e) {
-                /*
-                    Empty because there is no need to do anything if we didn't find any bank accounts of this merchant
-                    Purpose is to find that one account we want to delete
-                */
+                System.out.println("Merchant doesn't have searched bank account");
             }
         });
         if (!isAccountFound.get()) {
