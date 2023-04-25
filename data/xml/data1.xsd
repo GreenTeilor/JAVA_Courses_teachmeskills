@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- определение простых элементов -->
+    <xs:element name="name" type="xs:string"/>
+    <xs:element name="lastName" type="xs:string"/>
+    <xs:element name="patronymic" type="xs:string"/>
+    <xs:element name="position" type="xs:string"/>
+    <xs:element name="department" type="xs:string"/>
+    <xs:element name="workExperience" type="xs:positiveInteger"/>
+
+    <!-- определение атрибутов -->
+    <xs:attribute name="facility" type="xs:string"/>
+
+    <!-- определение составных элементов -->
+    <xs:element name="employee">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="name"/>
+                <xs:element ref="lastName"/>
+                <xs:element ref="patronymic"/>
+                <xs:element ref="position"/>
+                <xs:element ref="department"/>
+                <xs:element ref="workExperience"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="employees">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="employee" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute ref="facility" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

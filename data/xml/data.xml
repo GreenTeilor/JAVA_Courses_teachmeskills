@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE employees SYSTEM "format.dtd">
+<employees facility="clinic"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="data2.xsd">
+    <employee>
+        <name>Ivan</name>
+        <lastName>Ivanov</lastName>
+        <patronymic>Ivanovich</patronymic>
+        <position>Engineer</position>
+        <department>Epam</department>
+        <workExperience>20</workExperience>
+    </employee>
+    <employee>
+        <name>Alexei</name>
+        <lastName>Levancevich</lastName>
+        <patronymic>Alexandrovich</patronymic>
+        <position>PM</position>
+        <department>Epam</department>
+        <workExperience>30</workExperience>
+    </employee>
+</employees>
