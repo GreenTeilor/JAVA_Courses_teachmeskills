@@ -52,10 +52,7 @@ public class SaxParser {
                 case "patronymic" -> currentEmployee.setPatronymic(new String(ch, start, length));
                 case "position" -> currentEmployee.setPosition(new String(ch, start, length));
                 case "department" -> currentEmployee.setDepartment(new String(ch, start, length));
-                case "workExperience" ->
-                        currentEmployee.setWorkExperience(Integer.parseInt(new String(ch, start, length)));
-                default -> {
-                }
+                case "workExperience" -> currentEmployee.setWorkExperience(Integer.parseInt(new String(ch, start, length)));
             }
         }
 

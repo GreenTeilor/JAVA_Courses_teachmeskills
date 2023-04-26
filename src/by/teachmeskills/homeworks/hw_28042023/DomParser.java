@@ -15,12 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DomParser {
-    private static List<Employee> employeesList;
+    private static List<Employee> employeeList;
     private static String facility;
     private static Employee currentEmployee;
 
     static {
-        employeesList = new ArrayList<>();
+        employeeList = new ArrayList<>();
         currentEmployee = new Employee();
     }
 
@@ -28,7 +28,7 @@ public class DomParser {
         try {
             XMLHandler.parse(FilesPaths.DATA_PATH);
             System.out.println("Facility: " + facility);
-            employeesList.forEach(System.out::println);
+            employeeList.forEach(System.out::println);
         } catch (ParserConfigurationException | IOException | SAXException e) {
             System.out.println(e.getMessage());
         }
@@ -51,7 +51,7 @@ public class DomParser {
                     currentEmployee.setPosition(getTagValue("position", element));
                     currentEmployee.setDepartment(getTagValue("department", element));
                     currentEmployee.setWorkExperience(Integer.parseInt(getTagValue("workExperience", element)));
-                    employeesList.add(currentEmployee);
+                    employeeList.add(currentEmployee);
                     currentEmployee = new Employee();
                 }
             }
