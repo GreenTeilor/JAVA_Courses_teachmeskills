@@ -1,3 +1,7 @@
 .idea/
 out/
 JAVA_Courses_teachmeskills.iml
+client/client.iml
+tmspaymentsystem/tmspaymentsystem.iml
+jaxbe/pom.xml
+tmspaymentsystem/data

@@ -13,16 +13,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SaxParser {
-    private static List<Employee> employees = new ArrayList<>();
+    private static List<Employee> employees;
     private static String currentElement;
-    private static Employee currentEmployee = new Employee();
+    private static Employee currentEmployee;
     private static String facility;
+
+    static {
+        employees = new ArrayList<>();
+        currentEmployee = new Employee();
+    }
 
     public static void main(String[] args) {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         try {
             SAXParser parser = factory.newSAXParser();
-            parser.parse(new File(Paths.DATA_PATH), new XMLHandler());
+            parser.parse(new File(FilesPaths.DATA_PATH), new XMLHandler());
             System.out.println("Facility: " + facility);
             employees.forEach(System.out::println);
         } catch (ParserConfigurationException | SAXException | IOException e) {
@@ -47,8 +52,10 @@ public class SaxParser {
                 case "patronymic" -> currentEmployee.setPatronymic(new String(ch, start, length));
                 case "position" -> currentEmployee.setPosition(new String(ch, start, length));
                 case "department" -> currentEmployee.setDepartment(new String(ch, start, length));
-                case "workExperience" -> currentEmployee.setWorkExperience(Integer.parseInt(new String(ch, start, length)));
-                default -> {}
+                case "workExperience" ->
+                        currentEmployee.setWorkExperience(Integer.parseInt(new String(ch, start, length)));
+                default -> {
+                }
             }
         }
 
