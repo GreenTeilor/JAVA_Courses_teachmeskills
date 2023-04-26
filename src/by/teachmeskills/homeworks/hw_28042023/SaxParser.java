@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Scanner;
 
 public class SaxParser {
     private static List<Employee> employeeList;
@@ -34,6 +36,10 @@ public class SaxParser {
         } catch (ParserConfigurationException | SAXException | IOException e) {
             System.out.println(e.getMessage());
         }
+        System.out.println("Input employee name: ");
+        Scanner scanner = new Scanner(System.in);
+        Optional<Employee> employee = Searcher.searchByName(employeeList, scanner.next());
+        employee.ifPresentOrElse(System.out::println, () -> System.out.println("Employee is not found"));
     }
 
     private static class XMLHandler extends DefaultHandler {

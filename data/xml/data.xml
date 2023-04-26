@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!--<!DOCTYPE employees SYSTEM "format.dtd">-->
+<!--for some reason jaxb parser doesn't work with this
+<!DOCTYPE employees SYSTEM "format.dtd">
+-->
 <employees facility="clinic"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:noNamespaceSchemaLocation="data2.xsd">

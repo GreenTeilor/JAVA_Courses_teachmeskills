@@ -13,6 +13,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Scanner;
 
 public class StaxParser {
     private static List<Employee> employeeList;
@@ -28,6 +30,10 @@ public class StaxParser {
         XMLHandler.parse(FilesPaths.DATA_PATH);
         System.out.println("Facility: " + facility);
         employeeList.forEach(System.out::println);
+        System.out.println("Input employee name: ");
+        Scanner scanner = new Scanner(System.in);
+        Optional<Employee> employee = Searcher.searchByName(employeeList, scanner.next());
+        employee.ifPresentOrElse(System.out::println, () -> System.out.println("Employee is not found"));
     }
 
     private static class XMLHandler {
