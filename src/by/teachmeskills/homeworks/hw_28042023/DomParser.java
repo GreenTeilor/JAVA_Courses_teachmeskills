@@ -1,5 +1,6 @@
 package by.teachmeskills.homeworks.hw_28042023;
 
+import by.teachmeskills.homeworks.hw_28042023.exceptions.ValidationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -42,17 +43,28 @@ public class DomParser {
 
             NodeList employees = document.getDocumentElement().getElementsByTagName("employee");
             for (int i = 0; i < employees.getLength(); ++i) {
-                if (employees.item(i).getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) employees.item(i);
-                    facility = element.getParentNode().getAttributes().getNamedItem("facility").getNodeValue();
-                    currentEmployee.setName(getTagValue("name", element));
-                    currentEmployee.setLastName(getTagValue("lastName", element));
-                    currentEmployee.setPatronymic(getTagValue("patronymic", element));
-                    currentEmployee.setPosition(getTagValue("position", element));
-                    currentEmployee.setDepartment(getTagValue("department", element));
-                    currentEmployee.setWorkExperience(Integer.parseInt(getTagValue("workExperience", element)));
-                    employeeList.add(currentEmployee);
-                    currentEmployee = new Employee();
+                try {
+                    if (employees.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                        Element element = (Element) employees.item(i);
+                        facility = element.getParentNode().getAttributes().getNamedItem("facility").getNodeValue();
+                        currentEmployee.setName(getTagValue("name", element));
+                        currentEmployee.setLastName(getTagValue("lastName", element));
+                        currentEmployee.setPatronymic(getTagValue("patronymic", element));
+                        currentEmployee.setPosition(getTagValue("position", element));
+                        currentEmployee.setDepartment(getTagValue("department", element));
+                        currentEmployee.setWorkExperience(getTagValue("workExperience", element));
+                        if (ValidatorUtils.isValidName(currentEmployee.getName()) && ValidatorUtils.isValidName(currentEmployee.getLastName()) &&
+                                ValidatorUtils.isValidName(currentEmployee.getPatronymic()) && ValidatorUtils.isValidPosition(currentEmployee.getPosition()) &&
+                                ValidatorUtils.isValidDepartment(currentEmployee.getDepartment()) && ValidatorUtils.isValidWorkExperience(currentEmployee.getWorkExperience())) {
+                            employeeList.add(currentEmployee);
+                            currentEmployee = new Employee();
+                        } else {
+                            throw new ValidationException("Validation is not passed");
+                        }
+
+                    }
+                } catch (ValidationException e) {
+                    System.out.println(e.getMessage());
                 }
             }
         }

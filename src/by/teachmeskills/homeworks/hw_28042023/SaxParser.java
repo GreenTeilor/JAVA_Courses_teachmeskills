@@ -1,5 +1,6 @@
 package by.teachmeskills.homeworks.hw_28042023;
 
+import by.teachmeskills.homeworks.hw_28042023.exceptions.ValidationException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -13,13 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SaxParser {
-    private static List<Employee> employees;
+    private static List<Employee> employeeList;
     private static String currentElement;
     private static Employee currentEmployee;
     private static String facility;
 
     static {
-        employees = new ArrayList<>();
+        employeeList = new ArrayList<>();
         currentEmployee = new Employee();
     }
 
@@ -29,7 +30,7 @@ public class SaxParser {
             SAXParser parser = factory.newSAXParser();
             parser.parse(new File(FilesPaths.DATA_PATH), new XMLHandler());
             System.out.println("Facility: " + facility);
-            employees.forEach(System.out::println);
+            employeeList.forEach(System.out::println);
         } catch (ParserConfigurationException | SAXException | IOException e) {
             System.out.println(e.getMessage());
         }
@@ -52,15 +53,25 @@ public class SaxParser {
                 case "patronymic" -> currentEmployee.setPatronymic(new String(ch, start, length));
                 case "position" -> currentEmployee.setPosition(new String(ch, start, length));
                 case "department" -> currentEmployee.setDepartment(new String(ch, start, length));
-                case "workExperience" -> currentEmployee.setWorkExperience(Integer.parseInt(new String(ch, start, length)));
+                case "workExperience" -> currentEmployee.setWorkExperience(new String(ch, start, length));
             }
         }
 
         @Override
         public void endElement(String uri, String localName, String qName) throws SAXException {
             if (qName.equals("employee")) {
-                employees.add(currentEmployee);
-                currentEmployee = new Employee();
+                try {
+                    if (ValidatorUtils.isValidName(currentEmployee.getName()) && ValidatorUtils.isValidName(currentEmployee.getLastName()) &&
+                            ValidatorUtils.isValidName(currentEmployee.getPatronymic()) && ValidatorUtils.isValidPosition(currentEmployee.getPosition()) &&
+                            ValidatorUtils.isValidDepartment(currentEmployee.getDepartment()) && ValidatorUtils.isValidWorkExperience(currentEmployee.getWorkExperience())) {
+                        employeeList.add(currentEmployee);
+                        currentEmployee = new Employee();
+                    } else {
+                        throw new ValidationException("Validation is not passed");
+                    }
+                } catch (ValidationException e) {
+                    System.out.println(e.getMessage());
+                }
             }
             currentElement = "";
         }

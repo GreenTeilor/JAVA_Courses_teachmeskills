@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE employees SYSTEM "format.dtd">
+<!--<!DOCTYPE employees SYSTEM "format.dtd">-->
 <employees facility="clinic"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:noNamespaceSchemaLocation="data2.xsd">
@@ -7,7 +7,7 @@
         <name>Ivan</name>
         <lastName>Ivanov</lastName>
         <patronymic>Ivanovich</patronymic>
-        <position>surgeon</position>
+        <position>Surgeon</position>
         <department>surgery</department>
         <workExperience>20</workExperience>
     </employee>
@@ -15,7 +15,7 @@
         <name>Natalya</name>
         <lastName>Ivanova</lastName>
         <patronymic>Igorevna</patronymic>
-        <position>nurse</position>
+        <position>Nurse</position>
         <department>ambulance</department>
         <workExperience>25</workExperience>
     </employee>

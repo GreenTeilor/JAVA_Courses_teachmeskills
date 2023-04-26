@@ -1,5 +1,7 @@
 package by.teachmeskills.homeworks.hw_28042023;
 
+import by.teachmeskills.homeworks.hw_28042023.exceptions.ValidationException;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -50,15 +52,25 @@ public class StaxParser {
                                 case "patronymic" -> currentEmployee.setPatronymic(xmlEvent.asCharacters().getData());
                                 case "position" -> currentEmployee.setPosition(xmlEvent.asCharacters().getData());
                                 case "department" -> currentEmployee.setDepartment(xmlEvent.asCharacters().getData());
-                                case "workExperience" -> currentEmployee.setWorkExperience(Integer.parseInt(xmlEvent.asCharacters().getData()));
+                                case "workExperience" -> currentEmployee.setWorkExperience(xmlEvent.asCharacters().getData());
                             }
                         }
                     }
                     if (xmlEvent.isEndElement()) {
                         EndElement endElement = xmlEvent.asEndElement();
                         if (endElement.getName().getLocalPart().equals("employee")) {
-                            employeeList.add(currentEmployee);
-                            currentEmployee = new Employee();
+                            try {
+                                if (ValidatorUtils.isValidName(currentEmployee.getName()) && ValidatorUtils.isValidName(currentEmployee.getLastName()) &&
+                                        ValidatorUtils.isValidName(currentEmployee.getPatronymic()) && ValidatorUtils.isValidPosition(currentEmployee.getPosition()) &&
+                                        ValidatorUtils.isValidDepartment(currentEmployee.getDepartment()) && ValidatorUtils.isValidWorkExperience(currentEmployee.getWorkExperience())) {
+                                    employeeList.add(currentEmployee);
+                                    currentEmployee = new Employee();
+                                } else {
+                                    throw new ValidationException("Validation is not passed");
+                                }
+                            } catch (ValidationException e) {
+                                System.out.println(e.getMessage());
+                            }
                         }
                     }
                 }

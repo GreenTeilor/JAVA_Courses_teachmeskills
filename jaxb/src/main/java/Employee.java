@@ -1,11 +1,22 @@
-package by.teachmeskills.homeworks.hw_28042023;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlType;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder = {"name", "lastName", "patronymic", "position", "department", "workExperience"})
 public class Employee {
+    @XmlElement(name = "name")
     private String name;
+    @XmlElement(name = "lastName")
     private String lastName;
+    @XmlElement(name = "patronymic")
     private String patronymic;
+    @XmlElement(name = "position")
     private String position;
+    @XmlElement(name = "department")
     private String department;
+    @XmlElement(name = "workExperience")
     private String workExperience;
 
     public Employee() {
@@ -25,48 +36,24 @@ public class Employee {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getLastName() {
         return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getPatronymic() {
         return patronymic;
     }
 
-    public void setPatronymic(String patronymic) {
-        this.patronymic = patronymic;
-    }
-
     public String getPosition() {
         return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
     }
 
     public String getDepartment() {
         return department;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
     public String getWorkExperience() {
         return workExperience;
-    }
-
-    public void setWorkExperience(String workExperience) {
-        this.workExperience = workExperience;
     }
 
     @Override
