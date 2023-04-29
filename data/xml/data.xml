@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--for some reason jaxb parser doesn't work with this
+<!DOCTYPE employees SYSTEM "format.dtd">
+-->
+<employees facility="clinic"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="data2.xsd">
+    <employee>
+        <name>Ivan</name>
+        <lastName>Ivanov</lastName>
+        <patronymic>Ivanovich</patronymic>
+        <position>Surgeon</position>
+        <department>surgery</department>
+        <workExperience>20</workExperience>
+    </employee>
+    <employee>
+        <name>Natalya</name>
+        <lastName>Ivanova</lastName>
+        <patronymic>Igorevna</patronymic>
+        <position>Nurse</position>
+        <department>ambulance</department>
+        <workExperience>25</workExperience>
+    </employee>
+</employees>

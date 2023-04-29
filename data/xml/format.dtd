@@ -1,0 +1,7 @@
+<!ELEMENT employe (name, lastName, patronymic, position, department, workExperience)>
+        <!ELEMENT name (#PCDATA)>
+        <!ELEMENT lastName (#PCDATA)>
+        <!ELEMENT patronymic (#PCDATA)>
+        <!ELEMENT position (#PCDATA)>
+        <!ELEMENT department (#PCDATA)>
+        <!ELEMENT workExperience (#PCDATA)>
