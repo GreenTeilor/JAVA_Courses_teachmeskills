@@ -36,7 +36,7 @@ public class JewelryShop implements Runnable{
 
     @Override
     public void run() {
-        while (!Thread.interrupted()) {
+        while (items.size() > 0) {
             try {
                 Thread.sleep(3000); //Gap to serve customers even if less than 4 left(let them in)
                 if (customers.size() < 4) {
