@@ -1,11 +1,9 @@
-package paymentsystem.filesOperations;
+package paymentsystem.dbOperations;
 
-import paymentsystem.bankAccount.AccountStatus;
 import paymentsystem.bankAccount.BankAccount;
 import paymentsystem.encryption.EncryptorDecryptorUtils;
 import paymentsystem.merchant.Merchant;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,16 +12,15 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class FilesOperationsUtils {
-    private FilesOperationsUtils() {
+public class DBOperationsUtils {
+    private DBOperationsUtils() {
 
     }
 
-    public static void saveMerchant(Connection connection, Merchant merchant) {
+    public static void saveMerchantDB(Connection connection, Merchant merchant) {
         String query = "INSERT INTO merchants (id, name, created_at) Values (?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)){
             statement.setString(1, merchant.getId());
@@ -35,7 +32,7 @@ public class FilesOperationsUtils {
         }
     }
 
-    public static void saveBankAccount(Connection connection, BankAccount bankAccount) {
+    public static void saveBankAccountDB(Connection connection, BankAccount bankAccount) {
         String querySEARCH = "SELECT * FROM bank_accounts WHERE merchant_id = ? AND account_number = ?";
         String queryUPDATE = "UPDATE bank_accounts SET status = ? WHERE merchant_id = ? AND account_number = ?";
         String queryCREATE = "INSERT INTO bank_accounts (id, merchant_id, status, account_number, created_at) Values (?, ?, ?, ?, ?)";
@@ -78,7 +75,7 @@ public class FilesOperationsUtils {
 
     }
 
-    public static List<Merchant> readMerchants(Connection connection) {
+    public static List<Merchant> readMerchantsDB(Connection connection) {
         List<Merchant> merchants = new ArrayList<>();
         String query = "SELECT * FROM merchants";
         try (Statement statement = connection.createStatement()) {
@@ -93,7 +90,7 @@ public class FilesOperationsUtils {
         return merchants;
     }
 
-    public static List<BankAccount> readBankAccounts(Connection connection) {
+    public static List<BankAccount> readBankAccountsDB(Connection connection) {
         List<BankAccount> bankAccounts = new ArrayList<>();
         String query = "SELECT * FROM bank_accounts ORDER BY status ASC, created_at ASC";
         try (Statement statement = connection.createStatement()) {
@@ -109,27 +106,38 @@ public class FilesOperationsUtils {
         return bankAccounts;
     }
 
-    public static void deleteBankAccountsFromFile(File file, List<BankAccount> bankAccountsToDelete) {
-        /*
-        List<BankAccount> bankAccounts = readBankAccounts(file);
-        file.delete();
-        bankAccountsToDelete.forEach(toDelete -> bankAccounts.stream().filter(a -> a.getAccountNumber().equals(toDelete.getAccountNumber()) &&
-                a.getMerchantId().equals(toDelete.getMerchantId())).forEach(a -> a.setStatus(AccountStatus.DELETED)));
-        bankAccounts.forEach(a -> saveBankAccount(file, a));
-         */
+    public static void deleteBankAccountDB(Connection connection, BankAccount account) {
+        String query = "UPDATE bank_accounts SET status = ? WHERE merchant_id = ? AND account_number = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, "deleted");
+            statement.setString(2, account.getMerchantId());
+            statement.setString(3, EncryptorDecryptorUtils.encrypt(account.getAccountNumber()));
+            statement.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    public static void deleteMerchantBankAccountsDB(Connection connection, Merchant merchant) {
+        String query = "DELETE FROM bank_accounts WHERE merchant_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, merchant.getId());
+            statement.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
-    public static void deleteMerchantFromFile(File file, Merchant merchant) {
-        /*
-        List<Merchant> merchants = readMerchants(file);
-        file.delete();
-        Optional<Merchant> mer = merchants.stream().filter(m -> m.getId().equals(merchant.getId())).findFirst();
-        mer.ifPresent(merchants::remove);
-        merchants.forEach(m -> saveMerchant(file, m));
-        */
+    public static void deleteMerchantDB(Connection connection, Merchant merchant) {
+        String query = "DELETE FROM merchants WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, merchant.getId());
+            statement.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
-    public static void updateBankAccountInFile(Connection connection, BankAccount bankAccount, String newBankAccountNumber) {
+    public static void updateBankAccountDB(Connection connection, BankAccount bankAccount, String newBankAccountNumber) {
         String query = "UPDATE bank_accounts SET account_number = ? WHERE merchant_id = ? AND account_number = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, EncryptorDecryptorUtils.encrypt(newBankAccountNumber));

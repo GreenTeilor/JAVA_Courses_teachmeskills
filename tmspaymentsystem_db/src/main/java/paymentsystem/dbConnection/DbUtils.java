@@ -1,4 +1,4 @@
-package paymentsystem.db;
+package paymentsystem.dbConnection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +9,7 @@ public class DbUtils {
     private static final String dbUsername = "root";
     private static final String dbPassword = "123";
 
-    public static Connection getConnection(){
+    public static Connection getConnection() {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);

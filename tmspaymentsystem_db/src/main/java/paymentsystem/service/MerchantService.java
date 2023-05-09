@@ -6,12 +6,10 @@ import paymentsystem.bankAccount.BankAccount;
 import paymentsystem.exceptions.BankAccountNotFoundException;
 import paymentsystem.exceptions.MerchantAlreadyHasBankAccountNumberException;
 import paymentsystem.exceptions.NoBankAccountsFoundException;
-import paymentsystem.filesOperations.FilesOperationsUtils;
+import paymentsystem.dbOperations.DBOperationsUtils;
 import paymentsystem.merchant.Merchant;
 
-import java.io.File;
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -20,8 +18,8 @@ public class MerchantService {
     private List<Merchant> merchants;
 
     public MerchantService(Connection connection) {
-        merchants = FilesOperationsUtils.readMerchants(connection);
-        List<BankAccount> bankAccounts = FilesOperationsUtils.readBankAccounts(connection);
+        merchants = DBOperationsUtils.readMerchantsDB(connection);
+        List<BankAccount> bankAccounts = DBOperationsUtils.readBankAccountsDB(connection);
         for (Merchant merchant : merchants) {
             for (BankAccount bankAccount : bankAccounts) {
                 if (merchant.getId().equals(bankAccount.getMerchantId())) {
