@@ -5,18 +5,16 @@ import paymentsystem.dbConnection.DbUtils;
 import paymentsystem.exceptions.BankAccountNotFoundException;
 import paymentsystem.exceptions.MerchantAlreadyHasBankAccountNumberException;
 import paymentsystem.exceptions.NoBankAccountsFoundException;
-import paymentsystem.dbOperations.DBOperationsUtils;
 import paymentsystem.merchant.Merchant;
 import paymentsystem.service.MerchantService;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Run {
     public static void main(String[] args) {
-        try (Connection connection = DbUtils.getConnection()) {
-            MerchantService service = new MerchantService(connection);
+        try {
+            MerchantService service = new MerchantService(DbUtils::getConnection);
             Scanner scanner = new Scanner(System.in);
             boolean isWorking = true;
             while (isWorking) {
@@ -50,15 +48,12 @@ public class Run {
                     case 2 -> {
                         System.out.print("Input merchant id: ");
                         Merchant merchant = service.getMerchantById(scanner.next());
-                        if (merchant != null) {
-                            System.out.print("Input account number: ");
-                            try {
-                                DBOperationsUtils.saveBankAccountDB(connection, service.addBankAccount(merchant, new BankAccount(merchant.getId(), scanner.next())));
-                            } catch (IllegalArgumentException e) {
-                                System.out.println(e.getMessage());
-                            }
-                        } else {
-                            System.out.println("There is no such merchant!");
+                        System.out.print("Input account number: ");
+                        BankAccount account = new BankAccount(merchant.getId(), scanner.next());
+                        try {
+                            service.addBankAccount(merchant, account);
+                        } catch (IllegalArgumentException e) {
+                            System.out.println(e.getMessage());
                         }
                     }
 
@@ -68,19 +63,11 @@ public class Run {
                         if (merchant != null) {
                             System.out.print("Input bank account number: ");
                             BankAccount account = merchant.getAccountByNumber(scanner.next());
-                            if (account != null) {
-                                System.out.print("Input new account number: ");
-                                String newAccountNumber = scanner.next();
-                                try {
-                                    BankAccount accountCopy = new BankAccount(account.getMerchantId(), account.getStatus(), account.getAccountNumber(), account.getCreationDate());
-                                    service.updateBankAccount(account, newAccountNumber);
-                                    DBOperationsUtils.updateBankAccountDB(connection, accountCopy, newAccountNumber);
-                                } catch (BankAccountNotFoundException | MerchantAlreadyHasBankAccountNumberException |
-                                         IllegalArgumentException e) {
-                                    System.out.println(e.getMessage());
-                                }
-                            } else {
-                                System.out.println("There is no such account!");
+                            System.out.println("Input new bank account number: ");
+                            try {
+                                service.updateBankAccount(account, scanner.next());
+                            } catch (MerchantAlreadyHasBankAccountNumberException | BankAccountNotFoundException e) {
+                                System.out.println(e.getMessage());
                             }
                         } else {
                             System.out.println("There is no such merchant!");
@@ -93,16 +80,10 @@ public class Run {
                         if (merchant != null) {
                             System.out.print("Input bank account number: ");
                             BankAccount account = merchant.getAccountByNumber(scanner.next());
-                            if (account != null) {
-                                try {
-                                    if (service.deleteBankAccount(account)) {
-                                        DBOperationsUtils.deleteBankAccountDB(connection, account);
-                                    }
-                                } catch (BankAccountNotFoundException e) {
-                                    throw new RuntimeException(e);
-                                }
-                            } else {
-                                System.out.println("There is no such account!");
+                            try {
+                                service.deleteBankAccount(account);
+                            } catch (BankAccountNotFoundException e) {
+                                System.out.println(e.getMessage());
                             }
                         } else {
                             System.out.println("There is no such merchant!");
@@ -118,34 +99,19 @@ public class Run {
                             System.out.println("There is no such merchant!");
                         }
                     }
+
                     case 6 -> service.getMerchants().forEach(System.out::println);
 
                     case 7 -> {
                         System.out.print("Input merchant name: ");
-                        DBOperationsUtils.saveMerchantDB(connection, service.createMerchant(new Merchant(scanner.next())));
+                        service.createMerchant(new Merchant(scanner.next()));
                     }
 
                     case 8 -> {
                         System.out.print("Input merchant id: ");
                         Merchant merchant = service.getMerchantById(scanner.next());
                         if (merchant != null) {
-                            if (service.deleteMerchant(merchant.getId())) {
-                                DBOperationsUtils.deleteMerchantDB(connection, merchant);
-                                try {
-                                    merchant.getBankAccounts().forEach(a -> {
-                                        try {
-                                            service.deleteBankAccount(a);
-                                        } catch (BankAccountNotFoundException e) {
-                                            System.out.println(e.getMessage());
-                                        }
-                                    });
-                                    DBOperationsUtils.deleteMerchantBankAccountsDB(connection, merchant);
-                                } catch (NoBankAccountsFoundException e) {
-                                    //In this case we don't need to notify user, that merchant didn't have bank accounts
-                                }
-                            } else {
-                                System.out.println("Merchant wasn't deleted!");
-                            }
+                            service.deleteMerchant(merchant);
                         } else {
                             System.out.println("There is no such merchant!");
                         }
@@ -157,6 +123,7 @@ public class Run {
                     }
                 }
             }
+            service.finishWork();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

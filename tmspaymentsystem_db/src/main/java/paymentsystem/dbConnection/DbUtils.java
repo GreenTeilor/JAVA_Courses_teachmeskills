@@ -14,9 +14,8 @@ public class DbUtils {
         try {
             connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
-
         return connection;
     }
 }
